@@ -184,10 +184,14 @@ namespace HumaneSociety
         }
 
         internal static void UpdateAnimal(int animalId, Dictionary<int, string> updates)
-        {            
-                //with LINQ
-               
+        {
+            Animal updateAnimal = db.Animals.Where(a => a.AnimalId == animalId).Single();
+            foreach(KeyValuePair<int,string> animal in updates)
+            {
+                Console.WriteLine(animal);
+            }
 
+            
         }
 
         internal static void RemoveAnimal(Animal animal)
