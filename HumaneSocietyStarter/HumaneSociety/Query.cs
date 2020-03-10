@@ -178,8 +178,10 @@ namespace HumaneSociety
 
         internal static Animal GetAnimalByID(int id)
         {
-            GetAnimalByID
-        }
+            var searchAnimalId = db.Animals.Where(a => a.AnimalId == id).Single();
+            return searchAnimalId;
+
+
 
         internal static void UpdateAnimal(int animalId, Dictionary<int, string> updates)
         {            
