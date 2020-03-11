@@ -272,24 +272,49 @@ namespace HumaneSociety
 
         internal static Room GetRoom(int animalId) //
         {
-            throw new NotImplementedException();
+            var searchRoom = db.Rooms.Where(r => r.RoomNumber == animalId).Single();
+            return searchRoom;
+
         }
 
         internal static int GetDietPlanId(string dietPlanName)
         {
-            throw new NotImplementedException();
+            var searchDiet = db.DietPlans.Where(d => d.DietPlanId == int.Parse(dietPlanName));
+            return int.Parse(dietPlanName);
         }
 
         // TODO: Adoption CRUD Operations
         internal static void Adopt(Animal animal, Client client)
         {
-            throw new NotImplementedException();
-            // create
-            // read
-            //update
-            //delete
-        }
 
+            switch (client)
+            {
+                case "create":
+                    db.Adoptions(client)
+
+
+                    break;
+                case "read":
+                    var adoptionRead = db.Adoptions.
+                    Console.ReadLine();
+                    break;
+                case "update":
+                    var employeeToUpdate = db.Employees.FirstOrDefault(e => employee.EmployeeNumber == employee.EmployeeNumber);
+                    employeeToUpdate.FirstName = employee.FirstName;
+                    employeeToUpdate.LastName = employee.LastName;
+                    employeeToUpdate.Email = employee.Email;
+                    db.SubmitChanges();
+                    break;
+                case "delete":
+                    var employeeToDelete = db.Employees.FirstOrDefault(e => employee.EmployeeNumber == employee.EmployeeNumber);
+                    db.Employees.DeleteOnSubmit(employee);
+                    break;
+                default:
+                    Console.WriteLine("Please choose valid option. ");
+                    RunEmployeeQueries(employee, crudOperation);
+                    break;
+            }
+        }
         internal static IQueryable<Adoption> GetPendingAdoptions()
         {
             throw new NotImplementedException();
