@@ -166,7 +166,31 @@ namespace HumaneSociety
         // TODO: Allow any of the CRUD operations to occur here
         internal static void RunEmployeeQueries(Employee employee, string crudOperation)
         {
-           
+            switch (crudOperation)
+            {
+                case "create":
+                    db.Employees.InsertOnSubmit(employee);
+                    break;
+                case "read":
+                    var employeeRead = db.Employees.FirstOrDefault(e => employee.EmployeeNumber == employee.EmployeeNumber);
+                    Console.ReadLine();
+                    break;
+                case "update":
+                    var employeeToUpdate = db.Employees.FirstOrDefault(e => employee.EmployeeNumber == employee.EmployeeNumber);
+                    employeeToUpdate.FirstName = employee.FirstName;
+                    employeeToUpdate.LastName = employee.LastName;
+                    employeeToUpdate.Email = employee.Email;
+                    db.SubmitChanges();
+                    break;
+                case "delete":
+                    var employeeToDelete = db.Employees.FirstOrDefault(e => employee.EmployeeNumber == employee.EmployeeNumber);
+                    db.Employees.DeleteOnSubmit(employee);
+                    break;
+                default: 
+                    Console.WriteLine("Please choose valid option. ");
+                    RunEmployeeQueries(employee, crudOperation);
+                    break;
+            }
         }
 
         // TODO: Animal CRUD Operations
@@ -188,7 +212,7 @@ namespace HumaneSociety
             Animal updateAnimal = db.Animals.Where(a => a.AnimalId == animalId).Single();
             foreach(KeyValuePair<int,string> animal in updates)
             {
-                Console.WriteLine(animal);
+                db.SubmitChanges();
             }
 
             
@@ -197,7 +221,7 @@ namespace HumaneSociety
 
         internal static void RemoveAnimal(Animal animal)
         {
-            
+            throw new NotImplementedException();
         }
         
         // TODO: Animal Multi-Trait Search
@@ -226,16 +250,19 @@ namespace HumaneSociety
         internal static void Adopt(Animal animal, Client client)
         {
             throw new NotImplementedException();
+            // create
         }
 
         internal static IQueryable<Adoption> GetPendingAdoptions()
         {
             throw new NotImplementedException();
+            //Read from list 
         }
 
         internal static void UpdateAdoption(bool isAdopted, Adoption adoption)
         {
             throw new NotImplementedException();
+            //
         }
 
         internal static void RemoveAdoption(int animalId, int clientId)
