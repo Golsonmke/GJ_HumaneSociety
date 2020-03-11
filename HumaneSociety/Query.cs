@@ -194,9 +194,10 @@ namespace HumaneSociety
             
         }
 
+
         internal static void RemoveAnimal(Animal animal)
         {
-            throw new NotImplementedException();
+            
         }
         
         // TODO: Animal Multi-Trait Search
