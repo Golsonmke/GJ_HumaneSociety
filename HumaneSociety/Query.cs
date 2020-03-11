@@ -225,7 +225,7 @@ namespace HumaneSociety
         }
 
         // TODO: Animal Multi-Trait Search
-        internal static IQueryable<Animal> SearchForAnimalsByMultipleTraits(Dictionary<int, string> updates) // parameter(s)? Query animal list options from customer list
+        internal static IQueryable<Animal> SearchForAnimalsByMultipleTraits(Dictionary<int, string> updates) // parameter(s)? Query animal list options from customer menu
         {
             IQueryable<Animal> queryAnimals = db.Animals;
 
@@ -286,45 +286,25 @@ namespace HumaneSociety
         // TODO: Adoption CRUD Operations
         internal static void Adopt(Animal animal, Client client)
         {
-
-            switch (client)
-            {
-                case "create":
-                    db.Adoptions(client)
-
-
-                    break;
-                case "read":
-                    var adoptionRead = db.Adoptions.
-                    Console.ReadLine();
-                    break;
-                case "update":
-                    var employeeToUpdate = db.Employees.FirstOrDefault(e => employee.EmployeeNumber == employee.EmployeeNumber);
-                    employeeToUpdate.FirstName = employee.FirstName;
-                    employeeToUpdate.LastName = employee.LastName;
-                    employeeToUpdate.Email = employee.Email;
-                    db.SubmitChanges();
-                    break;
-                case "delete":
-                    var employeeToDelete = db.Employees.FirstOrDefault(e => employee.EmployeeNumber == employee.EmployeeNumber);
-                    db.Employees.DeleteOnSubmit(employee);
-                    break;
-                default:
-                    Console.WriteLine("Please choose valid option. ");
-                    RunEmployeeQueries(employee, crudOperation);
-                    break;
-            }
+            Adoption adoption = new Adoption();
+           
+            adoption.ClientId = client.ClientId;
+            adoption.AnimalId = animal.AnimalId;
+            adoption.ApprovalStatus = "Pending";
+            adoption.AdoptionFee = 75;
+            adoption.PaymentCollected = true;
+            db.Adoptions.InsertOnSubmit(adoption);
+            db.SubmitChanges();
         }
         internal static IQueryable<Adoption> GetPendingAdoptions()
         {
             throw new NotImplementedException();
             //Read from list 
         }
-
+        
         internal static void UpdateAdoption(bool isAdopted, Adoption adoption)
         {
             throw new NotImplementedException();
-            //Updatelist
         }
 
         internal static void RemoveAdoption(int animalId, int clientId)
