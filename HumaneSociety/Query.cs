@@ -218,10 +218,10 @@ namespace HumaneSociety
             
         }
 
-
         internal static void RemoveAnimal(Animal animal)
         {
-            throw new NotImplementedException();
+            db.Animals.DeleteOnSubmit(animal);
+            db.SubmitChanges();
         }
         
         // TODO: Animal Multi-Trait Search
@@ -231,9 +231,10 @@ namespace HumaneSociety
         }
          
         // TODO: Misc Animal Things
-        internal static int GetCategoryId(string categoryName)
+        internal static int GetCategoryId(string categoryName) //Where,Select
         {
-            throw new NotImplementedException();
+            var categoryId = db.Categories.Where(c => c.Name == categoryName).Select(c => c.CategoryId).Single();
+            return categoryId;
         }
         
         internal static Room GetRoom(int animalId)
