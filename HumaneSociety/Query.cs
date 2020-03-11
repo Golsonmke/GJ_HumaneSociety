@@ -197,13 +197,22 @@ namespace HumaneSociety
         internal static void AddAnimal(Animal animal)
         {
             db.Animals.InsertOnSubmit(animal);
+
             db.SubmitChanges();
         }
 
         internal static Animal GetAnimalByID(int id)
         {
             var searchAnimalId = db.Animals.Where(a => a.AnimalId == id).Single();
-            return searchAnimalId;
+            if (searchAnimalId == null)
+            {
+                throw new NullReferenceException();
+            }
+            else
+            {
+                return searchAnimalId;
+            }
+           
 
         }
 
@@ -212,7 +221,10 @@ namespace HumaneSociety
             Animal updateAnimal = db.Animals.Where(a => a.AnimalId == animalId).Single();
             foreach (KeyValuePair<int, string> animal in updates)
             {
-                db.SubmitChanges();
+               
+                
+                    db.SubmitChanges();
+                
             }
 
 
@@ -287,7 +299,7 @@ namespace HumaneSociety
         internal static void Adopt(Animal animal, Client client)
         {
             Adoption adoption = new Adoption();
-           
+            
             adoption.ClientId = client.ClientId;
             adoption.AnimalId = animal.AnimalId;
             adoption.ApprovalStatus = "Pending";
@@ -298,13 +310,21 @@ namespace HumaneSociety
         }
         internal static IQueryable<Adoption> GetPendingAdoptions()
         {
-            throw new NotImplementedException();
-            //Read from list 
+            IQueryable<Adoption> pendingAdoptions;
+            pendingAdoptions = db.Adoptions.Where(a => a.ApprovalStatus == "Pending");
+            return pendingAdoptions;
         }
         
         internal static void UpdateAdoption(bool isAdopted, Adoption adoption)
         {
-            throw new NotImplementedException();
+            if (isAdopted == true)
+            {
+                adoption.ApprovalStatus = "Adopted";
+            }
+            else
+            {
+                adoption.ApprovalStatus = "Available";
+            }
         }
 
         internal static void RemoveAdoption(int animalId, int clientId)
