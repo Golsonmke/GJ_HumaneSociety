@@ -221,8 +221,8 @@ namespace HumaneSociety
             Animal updateAnimal = db.Animals.Where(a => a.AnimalId == animalId).Single();
             foreach (KeyValuePair<int, string> animal in updates)
             {
-               
-                
+
+                GetAnimalByID(animalId);
                     db.SubmitChanges();
                 
             }
@@ -315,8 +315,9 @@ namespace HumaneSociety
             return pendingAdoptions;
         }
         
-        internal static void UpdateAdoption(bool isAdopted, Adoption adoption)
+        internal static void UpdateAdoption(bool isAdopted, Adoption adoption) 
         {
+            //  isAdopted ? adoption.ApprovalStatus = "Adopted" : adoption.ApprovalStatus = "Available";
             if (isAdopted == true)
             {
                 adoption.ApprovalStatus = "Adopted";
@@ -337,15 +338,22 @@ namespace HumaneSociety
         // TODO: Shots Stuff
         internal static IQueryable<AnimalShot> GetShots(Animal animal)
         {
-            throw new NotImplementedException();
-            //read shots
+            IQueryable<AnimalShot> animalShots = db.AnimalShots;
+            animalShots = db.AnimalShots.Where(a => a.AnimalId == animal.AnimalId);
+            return animalShots;
         }
 
         internal static void UpdateShot(string shotName, Animal animal)
         {
-            throw new NotImplementedException();
-            //update shots
+            AnimalShot animalShot = new AnimalShot();
+            animalShot.AnimalId = animal.AnimalId;
 
+              var  shotGave = db.Shots.Where(s => s.Name == shotName).SingleOrDefault();
+            animalShot.ShotId = shotGave.ShotId;
+            animalShot.DateReceived = DateTime.Now;
+            db.AnimalShots.Where(c => c.AnimalId == shotGave.ShotId);
+            db.AnimalShots.InsertOnSubmit(animalShot);
+            db.SubmitChanges();
         }
     }
 }
